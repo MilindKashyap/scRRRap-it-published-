@@ -19,9 +19,9 @@ services:
       # DJANGO_SECRET_KEY should be set in the Render Dashboard or as a secret
       # DATABASE_URL will be auto-injected if you add the database below
     autoDeploy: true
-    disks:
-      - name: sqlite-data
-        mountPath: /var/sqlite
-        sizeGB: 1
+    disk:
+      name: sqlite-data
+      mountPath: /var/sqlite
+      sizeGB: 1
     
 

@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: scrappit
+    env: python
+    plan: free
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate --noinput
+    startCommand: gunicorn Scrappit.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.5
+      - key: DJANGO_DEBUG
+        value: 'False'
+      - key: SQLITE_PATH
+        value: /var/sqlite/db.sqlite3
+      # DJANGO_SECRET_KEY should be set in the Render Dashboard or as a secret
+      # DATABASE_URL will be auto-injected if you add the database below
+    autoDeploy: true
+    disks:
+      - name: sqlite-data
+        mountPath: /var/sqlite
+        sizeGB: 1
+    
+
